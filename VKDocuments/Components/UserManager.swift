@@ -13,10 +13,8 @@ final class UserManager {
     
     static let manager = UserManager()
     
-    // TODO: checking token
     func isUserLogin() -> Bool {
-        // ...
-        return false
+        return SC.services.apiManager.token != nil
     }
     
     func userLogout() {

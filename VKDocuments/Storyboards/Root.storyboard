@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0QT-U1-gfx">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Root View Controller-->
+        <scene sceneID="ngI-HM-lmo">
+            <objects>
+                <viewController id="0QT-U1-gfx" customClass="RootViewController" customModule="VKDocuments" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uuV-uz-sb8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="t74-BD-ZGH">
+                                <rect key="frame" x="143" y="304" width="128" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="t74-BD-ZGH" firstAttribute="centerX" secondItem="uuV-uz-sb8" secondAttribute="centerX" id="HRf-2i-pfF"/>
+                            <constraint firstItem="t74-BD-ZGH" firstAttribute="centerY" secondItem="uuV-uz-sb8" secondAttribute="centerY" id="WVM-FW-Vx7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="921-eO-nyi"/>
+                    </view>
+                    <connections>
+                        <outlet property="logoImage" destination="t74-BD-ZGH" id="DAK-c5-PrX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xXD-Qy-gcW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="67" y="151"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="logo" width="128" height="128"/>
+    </resources>
+</document>

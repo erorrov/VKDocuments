@@ -16,7 +16,6 @@
 		DE7634C823005BAC00BF90C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE7634C723005BAC00BF90C5 /* Assets.xcassets */; };
 		DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D323005ECA00BF90C5 /* Constants.swift */; };
 		DE7634D723005FF300BF90C5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D623005FF300BF90C5 /* BaseViewController.swift */; };
-		DE93647A2301A2360098DD0F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9364792301A2360098DD0F /* Alamofire.framework */; };
 		DE93647D2301B3080098DD0F /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647C2301B3080098DD0F /* APIError.swift */; };
 		DE93647F2301B4FF0098DD0F /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647E2301B4FF0098DD0F /* Responses.swift */; };
 		DE9364812301E42A0098DD0F /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9364802301E42A0098DD0F /* Root.storyboard */; };
@@ -25,6 +24,9 @@
 		DE9364872301E5380098DD0F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9364862301E5380098DD0F /* LoginViewController.swift */; };
 		DE9CC13A2303165F002AD56D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9CC1392303165F002AD56D /* LaunchScreen.storyboard */; };
 		DE9CC13C23031670002AD56D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9CC13B23031670002AD56D /* Main.storyboard */; };
+		DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9364792301A2360098DD0F /* Alamofire.framework */; };
+		DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */; };
+		DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9AB23034AEF000C6223 /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,9 @@
 		DE9364862301E5380098DD0F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DE9CC1392303165F002AD56D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DE9CC13B23031670002AD56D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		DE9CC13D23033CD9002AD56D /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ../../../../../Users/erorrov/Desktop/VKDocuments/Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKLoginViewController.swift; sourceTree = "<group>"; };
+		DEC6C9AB23034AEF000C6223 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE93647A2301A2360098DD0F /* Alamofire.framework in Frameworks */,
+				DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +128,7 @@
 		DE7634BF23005BAB00BF90C5 /* VKDocuments */ = {
 			isa = PBXGroup;
 			children = (
+				DEC6C9AA23034ADB000C6223 /* Extensions */,
 				DE4AA2C42301619A008043D1 /* Models */,
 				DE4AA2C5230161D8008043D1 /* Components */,
 				DE4AA2C323015FBE008043D1 /* Controllers */,
@@ -155,6 +161,7 @@
 		DE9364782301A2360098DD0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DE9CC13D23033CD9002AD56D /* Alamofire.framework */,
 				DE9364792301A2360098DD0F /* Alamofire.framework */,
 			);
 			name = Frameworks;
@@ -180,8 +187,17 @@
 			isa = PBXGroup;
 			children = (
 				DE9364862301E5380098DD0F /* LoginViewController.swift */,
+				DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		DEC6C9AA23034ADB000C6223 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DEC6C9AB23034AEF000C6223 /* Notification.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,6 +305,8 @@
 				DE4AA2C9230165BF008043D1 /* APIConstants.swift in Sources */,
 				DE7634C123005BAB00BF90C5 /* AppDelegate.swift in Sources */,
 				DE4AA2C7230161F9008043D1 /* UserManager.swift in Sources */,
+				DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */,
+				DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */,
 				DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */,
 				DE93647D2301B3080098DD0F /* APIError.swift in Sources */,
 			);

@@ -8,15 +8,16 @@
 
 import UIKit
 
-class RootViewController: BaseViewController {
+class RootViewController: UIViewController {
     
     @IBOutlet weak var logoImage: UIImageView!
     
-    private let animationDuration = 0.4
-    private let animationDelay = 0.25
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateMainController), name: NSNotification.Name.updateRootController, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,28 +30,24 @@ class RootViewController: BaseViewController {
         }
     }
     
+    // TODO: Animation
     func openLoginView() {
-        let vc = UIStoryboard(name: StoryboardIDs.login.rawValue, bundle: nil).instantiateViewController(withIdentifier: ControllerStoryboardIDs.login.rawValue) as! LoginViewController
-        vc.loadView()
-        
-        UIView.animate(withDuration: animationDuration, delay: animationDelay, animations: {
-            self.logoImage.center = vc.logoImage.center
-        }, completion: { finished in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = vc
-        })
+        self.present(UINavigationController.init(rootViewController: LoginViewController.initialization()), animated: false)
     }
     
-    func openMainView() {
-        let vc = UIStoryboard(name: StoryboardIDs.main.rawValue, bundle: nil).instantiateViewController(withIdentifier: ControllerStoryboardIDs.main.rawValue) as! MainViewController
-        vc.loadView()
+    // TODO: Animation
+    func openMainView() {        
+        self.present(MainViewController.initialization(), animated: false)
         
-        UIView.animate(withDuration: animationDuration, delay: animationDelay, animations: {
-            self.logoImage.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-        }, completion: { finished in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            appDelegate.window?.rootViewController = vc
-        })
     }
 
+}
+
+
+private extension RootViewController {
+    
+    @objc func updateMainController() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }

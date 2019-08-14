@@ -24,9 +24,9 @@ final class UserManager {
         UserDefaults.standard.synchronize()
     }
     
-    var userID: Int {
+    var userID: String {
         get {
-            return UserDefaults.standard.object(forKey: "user_id") as? Int ?? 0
+            return UserDefaults.standard.object(forKey: "user_id") as? String ?? ""
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "user_id")

@@ -29,7 +29,7 @@ final class APIManager {
     func forceLogout() {
         self.token = nil
         UserManager.manager.userLogout()
-        // TODO: go to login view
+        NotificationCenter.default.post(name: NSNotification.Name.updateRootController, object: nil)
     }
     
 }

@@ -30,6 +30,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUf-Jb-Ajt">
                                 <rect key="frame" x="133" y="686" width="148" height="30"/>
                                 <state key="normal" title="Зарегестрироваться"/>
+                                <connections>
+                                    <action selector="signUpAction:" destination="063-eY-btT" eventType="touchUpInside" id="dVZ-cX-I1T"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHZ-H5-ZMn">
                                 <rect key="frame" x="20" y="343.66666666666669" width="374" height="50"/>
@@ -40,6 +43,9 @@
                                 <state key="normal" title="Войти через ВКонтакте">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="signInAction:" destination="063-eY-btT" eventType="touchUpInside" id="iIy-ft-4HE"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -57,13 +63,47 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8wx-0F-PK3"/>
                     </view>
+                    <navigationItem key="navigationItem" id="fCO-zZ-Tzw">
+                        <barButtonItem key="backBarButtonItem" title="Назад" id="NWr-06-px5"/>
+                    </navigationItem>
                     <connections>
+                        <outlet property="authButton" destination="gHZ-H5-ZMn" id="g7N-cC-TsX"/>
                         <outlet property="logoImage" destination="BYl-9P-ROx" id="qeO-Dj-xgB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ul0-je-chG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="86.956521739130437" y="145.92391304347828"/>
+            <point key="canvasLocation" x="994.20289855072474" y="145.92391304347828"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="kTJ-T8-lAc">
+            <objects>
+                <viewController storyboardIdentifier="WKLoginViewController" id="qdC-SR-cFg" customClass="WKLoginViewController" customModule="VKDocuments" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="crO-gV-D45">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pmF-Ed-beC">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="pmF-Ed-beC" firstAttribute="leading" secondItem="NKi-An-ece" secondAttribute="leading" id="3D4-0r-8xt"/>
+                            <constraint firstItem="pmF-Ed-beC" firstAttribute="top" secondItem="NKi-An-ece" secondAttribute="top" id="KHL-5s-ka4"/>
+                            <constraint firstItem="NKi-An-ece" firstAttribute="trailing" secondItem="pmF-Ed-beC" secondAttribute="trailing" id="hMt-9W-EtG"/>
+                            <constraint firstItem="NKi-An-ece" firstAttribute="bottom" secondItem="pmF-Ed-beC" secondAttribute="bottom" id="jPT-Sl-V3g"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NKi-An-ece"/>
+                    </view>
+                    <connections>
+                        <outlet property="webViewContainer" destination="pmF-Ed-beC" id="u6u-Zi-ANd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dFl-5s-d7l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1847.826086956522" y="145.92391304347828"/>
         </scene>
     </scenes>
     <resources>

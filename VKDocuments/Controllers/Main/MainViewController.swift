@@ -8,8 +8,14 @@
 
 import UIKit
 
-class MainViewController: BaseViewController {
+final class MainViewController: BaseViewController {
 
+    static func initialization() -> MainViewController {
+        let storyboard = UIStoryboard.init(name: StoryboardIDs.main.rawValue, bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: ControllerStoryboardIDs.main.rawValue) as! MainViewController
+        return controller
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

@@ -27,7 +27,7 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        // self.navigationController?.navigationBar.barTintColor = UIColor.white
     }
     
     func lightStatusBar() {

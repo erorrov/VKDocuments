@@ -14,4 +14,6 @@ enum StoryboardIDs: String {
 enum ControllerStoryboardIDs: String {
     case main = "MainViewController"
     case login = "LoginViewController"
+    case signIn = "WKLoginViewController"
 }
+

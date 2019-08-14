@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import SVProgressHUD
 
 final class WKLoginViewController: BaseViewController {
 
@@ -57,9 +58,14 @@ final class WKLoginViewController: BaseViewController {
 }
 
 // TODO: hide result page
-// TODO: loader
 extension WKLoginViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        SVProgressHUD.show()
+    }
+    
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        SVProgressHUD.hideOnMain()
+        
         let errorText: String
         
         switch error._code {
@@ -84,6 +90,8 @@ extension WKLoginViewController: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        SVProgressHUD.hideOnMain()
+        
         guard let url = webView.url?.absoluteString, url.hasPrefix(URLs.AuthResult) else {
             return
         }

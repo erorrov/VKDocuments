@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class RootViewController: UIViewController {
     
@@ -14,6 +15,13 @@ class RootViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.blue)
+        SVProgressHUD.setCornerRadius(7)
+        SVProgressHUD.setMinimumSize(CGSize.init(width: 100, height: 100))
         
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         

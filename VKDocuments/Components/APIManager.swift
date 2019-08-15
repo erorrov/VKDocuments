@@ -61,9 +61,9 @@ extension APIManager {
                             return
                         }
                         
-                        if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                            print(json)
-                        }
+//                        if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
+//                            print(json)
+//                        }
 
                         
                         do {
@@ -118,9 +118,9 @@ extension APIManager {
                     return
                 }
                 
-                if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                    print(json)
-                }
+//                if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
+//                    //print(json)
+//                }
                 
                 do {
                     let error = try JSONDecoder().decode(ErrorModel.self, from: data)
@@ -185,12 +185,12 @@ internal extension APIManager {
 
 extension APIManager {
     
-    func getDocuments(ownerID: Int, count: Int, offset: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+    func getDocuments(ownerID: String, count: Int, offset: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
         guard let token = self.token else {
             return
         }
         
-        let requestURL = String.init(format: "docs.get?owner_id=%d&count=%d&offset=%d&access_token=%@&v=5.101", ownerID, count, offset, token)
+        let requestURL = String.init(format: "docs.get?owner_id=%@&count=%d&offset=%d&access_token=%@&v=5.101", ownerID, count, offset, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)
@@ -199,12 +199,12 @@ extension APIManager {
         }
     }
     
-    func deleteDocument(ownerID: Int, docID: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+    func deleteDocument(ownerID: String, docID: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
         guard let token = self.token else {
             return
         }
         
-        let requestURL = String.init(format: "docs.delete?owner_id=%d&doc_id=%d&access_token=%@&v=5.101", ownerID, docID, token)
+        let requestURL = String.init(format: "docs.delete?owner_id=%@&doc_id=%d&access_token=%@&v=5.101", ownerID, docID, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)
@@ -213,12 +213,12 @@ extension APIManager {
         }
     }
     
-    func editDocument(ownerID: Int, docID: Int, title: String, tags: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+    func editDocument(ownerID: String, docID: Int, title: String, tags: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
         guard let token = self.token else {
             return
         }
         
-        let requestURL = String.init(format: "docs.edit?owner_id=%d&doc_id=%d&title=%@&tags=%@&access_token=%@&v=5.101", ownerID, docID, title, tags, token)
+        let requestURL = String.init(format: "docs.edit?owner_id=%@&doc_id=%d&title=%@&tags=%@&access_token=%@&v=5.101", ownerID, docID, title, tags, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)

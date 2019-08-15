@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE161E1D230491E900D188FC /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE161E1C230491E900D188FC /* SVProgressHUD.framework */; };
+		DE161E1F2304928700D188FC /* SVProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E1E2304928700D188FC /* SVProgressHUD.swift */; };
+		DE161E26230498CE00D188FC /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E24230498CE00D188FC /* DocumentCell.swift */; };
+		DE161E27230498CE00D188FC /* DocumentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE161E25230498CE00D188FC /* DocumentCell.xib */; };
 		DE4AA2C7230161F9008043D1 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C6230161F9008043D1 /* UserManager.swift */; };
 		DE4AA2C9230165BF008043D1 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C8230165BF008043D1 /* APIConstants.swift */; };
 		DE4AA2CB230167A6008043D1 /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */; };
 		DE4AA2CD23016AE8008043D1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2CC23016AE8008043D1 /* APIManager.swift */; };
 		DE7634C123005BAB00BF90C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634C023005BAB00BF90C5 /* AppDelegate.swift */; };
 		DE7634C323005BAB00BF90C5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634C223005BAB00BF90C5 /* MainViewController.swift */; };
-		DE7634C823005BAC00BF90C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE7634C723005BAC00BF90C5 /* Assets.xcassets */; };
 		DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D323005ECA00BF90C5 /* Constants.swift */; };
 		DE7634D723005FF300BF90C5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D623005FF300BF90C5 /* BaseViewController.swift */; };
+		DE7BC17223055673002B9B71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE7BC17123055673002B9B71 /* Assets.xcassets */; };
 		DE93647D2301B3080098DD0F /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647C2301B3080098DD0F /* APIError.swift */; };
 		DE93647F2301B4FF0098DD0F /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647E2301B4FF0098DD0F /* Responses.swift */; };
 		DE9364812301E42A0098DD0F /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9364802301E42A0098DD0F /* Root.storyboard */; };
@@ -27,9 +31,14 @@
 		DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9364792301A2360098DD0F /* Alamofire.framework */; };
 		DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */; };
 		DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9AB23034AEF000C6223 /* Notification.swift */; };
+		DEFE542F23041B04004DCFE1 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFE542E23041B04004DCFE1 /* Document.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DE161E1C230491E900D188FC /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
+		DE161E1E2304928700D188FC /* SVProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUD.swift; sourceTree = "<group>"; };
+		DE161E24230498CE00D188FC /* DocumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
+		DE161E25230498CE00D188FC /* DocumentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCell.xib; sourceTree = "<group>"; };
 		DE4AA2C6230161F9008043D1 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		DE4AA2C8230165BF008043D1 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
@@ -37,10 +46,10 @@
 		DE7634BD23005BAB00BF90C5 /* VKDocuments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKDocuments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7634C023005BAB00BF90C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE7634C223005BAB00BF90C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		DE7634C723005BAC00BF90C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE7634CC23005BAC00BF90C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE7634D323005ECA00BF90C5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DE7634D623005FF300BF90C5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		DE7BC17123055673002B9B71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE9364792301A2360098DD0F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DE93647C2301B3080098DD0F /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		DE93647E2301B4FF0098DD0F /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
@@ -53,6 +62,7 @@
 		DE9CC13D23033CD9002AD56D /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ../../../../../Users/erorrov/Desktop/VKDocuments/Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKLoginViewController.swift; sourceTree = "<group>"; };
 		DEC6C9AB23034AEF000C6223 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		DEFE542E23041B04004DCFE1 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */,
+				DE161E1D230491E900D188FC /* SVProgressHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				DE93647E2301B4FF0098DD0F /* Responses.swift */,
+				DEFE542E23041B04004DCFE1 /* Document.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -128,15 +140,15 @@
 		DE7634BF23005BAB00BF90C5 /* VKDocuments */ = {
 			isa = PBXGroup;
 			children = (
-				DEC6C9AA23034ADB000C6223 /* Extensions */,
 				DE4AA2C42301619A008043D1 /* Models */,
+				DEC6C9AA23034ADB000C6223 /* Extensions */,
 				DE4AA2C5230161D8008043D1 /* Components */,
 				DE4AA2C323015FBE008043D1 /* Controllers */,
 				DE4AA2C223015FA4008043D1 /* Storyboards */,
 				DE7634D523005FCC00BF90C5 /* Base */,
 				DE7634D223005E8A00BF90C5 /* Helpers */,
 				DE7634C023005BAB00BF90C5 /* AppDelegate.swift */,
-				DE7634C723005BAC00BF90C5 /* Assets.xcassets */,
+				DE7BC17123055673002B9B71 /* Assets.xcassets */,
 				DE7634CC23005BAC00BF90C5 /* Info.plist */,
 			);
 			path = VKDocuments;
@@ -161,6 +173,7 @@
 		DE9364782301A2360098DD0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DE161E1C230491E900D188FC /* SVProgressHUD.framework */,
 				DE9CC13D23033CD9002AD56D /* Alamofire.framework */,
 				DE9364792301A2360098DD0F /* Alamofire.framework */,
 			);
@@ -170,6 +183,7 @@
 		DE936488230207B30098DD0F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				DEC0F1E323048B5400EF20CD /* Cell */,
 				DE7634C223005BAB00BF90C5 /* MainViewController.swift */,
 			);
 			path = Main;
@@ -192,10 +206,20 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		DEC0F1E323048B5400EF20CD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				DE161E24230498CE00D188FC /* DocumentCell.swift */,
+				DE161E25230498CE00D188FC /* DocumentCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		DEC6C9AA23034ADB000C6223 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				DEC6C9AB23034AEF000C6223 /* Notification.swift */,
+				DE161E1E2304928700D188FC /* SVProgressHUD.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -258,10 +282,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE7634C823005BAC00BF90C5 /* Assets.xcassets in Resources */,
+				DE161E27230498CE00D188FC /* DocumentCell.xib in Resources */,
 				DE9CC13C23031670002AD56D /* Main.storyboard in Resources */,
 				DE9CC13A2303165F002AD56D /* LaunchScreen.storyboard in Resources */,
 				DE9364812301E42A0098DD0F /* Root.storyboard in Resources */,
+				DE7BC17223055673002B9B71 /* Assets.xcassets in Resources */,
 				DE9364832301E4F20098DD0F /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -278,11 +303,13 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Alamofire.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SVProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -308,7 +335,10 @@
 				DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */,
 				DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */,
 				DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */,
+				DE161E26230498CE00D188FC /* DocumentCell.swift in Sources */,
 				DE93647D2301B3080098DD0F /* APIError.swift in Sources */,
+				DEFE542F23041B04004DCFE1 /* Document.swift in Sources */,
+				DE161E1F2304928700D188FC /* SVProgressHUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

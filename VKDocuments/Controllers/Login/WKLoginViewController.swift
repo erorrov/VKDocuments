@@ -33,19 +33,21 @@ final class WKLoginViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    func setupUI() {
-        var webViewFrame = CGRect.zero
-        webViewFrame.origin.x = 0
-        webViewFrame.origin.y = 0
-        webViewFrame.size.width = self.webViewContainer.frame.size.width
-        webViewFrame.size.height = self.webViewContainer.frame.size.height - (self.navigationController?.navigationBar.frame.height ?? 0)
-        
+    func setupUI() {  
         let webConfiguration = WKWebViewConfiguration()
         
-        self.webView = WKWebView(frame: webViewFrame, configuration: webConfiguration)
+        self.webView = WKWebView(frame: .zero, configuration: webConfiguration)
+        self.webView.translatesAutoresizingMaskIntoConstraints = false
         self.webView.navigationDelegate = self
         self.webView.allowsBackForwardNavigationGestures = true
         self.webViewContainer.addSubview(self.webView)
+
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: webViewContainer.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: webViewContainer.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: webViewContainer.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: webViewContainer.bottomAnchor)
+        ])
         
         self.title = "Авторизация"
         

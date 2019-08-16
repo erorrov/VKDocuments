@@ -45,8 +45,7 @@ class RootViewController: UIViewController {
     
     // TODO: Animation
     func openMainView() {        
-        self.present(MainViewController.initialization(), animated: false)
-        
+        self.present(UINavigationController.init(rootViewController: MainViewController.initialization()), animated: false)
     }
 
 }

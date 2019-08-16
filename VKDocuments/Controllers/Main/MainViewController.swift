@@ -18,8 +18,11 @@ final class MainViewController: BaseViewController {
     }
     
     @IBOutlet private weak var tableView: UITableView!
-
     private var documentsArray = [Document]()
+    
+    private var isDataLoading = false
+    private var isEndReached = false
+    private var initialLoad = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,15 +34,41 @@ final class MainViewController: BaseViewController {
     
 
     func setupUI() {
-        SVProgressHUD.show()
+        loadData()
+        self.title = "Мои документы"
+    }
     
-        SC.services.apiManager.getDocuments(ownerID: UserManager.manager.userID, count: 10, offset: 0, success: { [weak self] (response) in
+    func loadData() {
+        if isDataLoading || isEndReached {
+            return
+        }
+        
+        if initialLoad == true {
+            isEndReached = false
+        }
+        
+        isDataLoading = true
+        
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.getDocuments(ownerID: UserManager.manager.userID, count: 20, offset: self.documentsArray.count, success: { [weak self] (response) in
             SVProgressHUD.hideOnMain()
+            self?.isDataLoading = false
             
             do {
                 let documents = try JSONDecoder().decode(Documents.self, from: response as! Data)
-                self?.documentsArray = documents.documentsArray
-                self?.tableView.reloadData()
+                
+                if self?.documentsArray.count ?? 0 >= documents.count {
+                    self?.isEndReached = true
+                } else {
+                    if self?.initialLoad ?? false {
+                        self?.documentsArray = documents.documentsArray
+                        self?.initialLoad = false
+                    } else {
+                        self?.documentsArray.append(contentsOf: documents.documentsArray)
+                    }
+                    self?.tableView.reloadData()
+                }
             } catch {
                 print(error)
             }
@@ -68,4 +97,3 @@ extension MainViewController: UITableViewDelegate {
         return DocumentCell.height
     }
 }
-

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 final class LoginViewController: BaseViewController {
     
@@ -42,6 +43,7 @@ final class LoginViewController: BaseViewController {
     
     @IBAction func signUpAction(_ sender: UIButton) {
         let url = URL(string: "https://m.vk.com/join")!
-        UIApplication.shared.open(url)
+        let controller = SFSafariViewController.init(url: url)
+        self.present(controller, animated: true, completion: nil)
     }
 }

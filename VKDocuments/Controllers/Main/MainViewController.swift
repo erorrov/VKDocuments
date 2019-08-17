@@ -24,19 +24,48 @@ final class MainViewController: BaseViewController {
     private var isEndReached = false
     private var initialLoad = true
     
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+        refreshControl.tintColor = UIColor.blue
+        return refreshControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
         
         tableView.register(UINib.init(nibName: DocumentCell.identifier, bundle: nil), forCellReuseIdentifier: DocumentCell.identifier)
         tableView.separatorStyle = .none
+        tableView.refreshControl = refreshControl
     }
     
-
     func setupUI() {
         loadData()
+        
+        let logoutButton = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(logout))
+        self.navigationController?.navigationBar.tintColor = UIColor.blue
+        self.navigationItem.rightBarButtonItem = logoutButton
+        
         self.title = "Мои документы"
     }
+    
+    @objc func logout() {
+        let alert = UIAlertController(title: "Выйти из аккаунта?", message: "Вы уверены, что хотите выйти из аккаунта?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Нет", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Да", style: .default, handler: { _ in SC.services.apiManager.forceLogout() }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func updateData() {
+        self.documentsArray.removeAll()
+        self.refreshControl.endRefreshing()
+        self.initialLoad = true
+        loadData()
+    }
+}
+
+private extension MainViewController {
     
     func loadData() {
         if isDataLoading || isEndReached {
@@ -83,6 +112,7 @@ final class MainViewController: BaseViewController {
         
         SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { (response) in
             SVProgressHUD.hideOnMain()
+            self.updateData()
         }) { (error) in
             SVProgressHUD.hideOnMain()
             print(error)
@@ -94,6 +124,7 @@ final class MainViewController: BaseViewController {
         
         SC.services.apiManager.editDocument(ownerID: ownerID, docID: documentID, title: title, success: { (response) in
             SVProgressHUD.hideOnMain()
+            self.updateData()
         }) { (error) in
             SVProgressHUD.hideOnMain()
             print(error)
@@ -118,6 +149,15 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return DocumentCell.height
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // print("current offset = \(scrollView.contentOffset.y)")
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.height && scrollView.contentSize.height > scrollView.frame.height {
+            loadData()
+        }
     }
 }
 

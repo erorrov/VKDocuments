@@ -35,6 +35,7 @@ final class WKLoginViewController: BaseViewController {
     
     func setupUI() {  
         let webConfiguration = WKWebViewConfiguration()
+        webConfiguration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
         
         self.webView = WKWebView(frame: .zero, configuration: webConfiguration)
         self.webView.translatesAutoresizingMaskIntoConstraints = false

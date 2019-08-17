@@ -48,7 +48,7 @@ extension APIManager {
         let headers = HTTPHeaders()
         let urlString = URLs.Base + path
         
-        AF.request(urlString,
+        Alamofire.request(urlString,
                    method: method,
                    parameters: parameters,
                    encoding: encoding,
@@ -61,9 +61,9 @@ extension APIManager {
                             return
                         }
                         
-//                        if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-//                            print(json)
-//                        }
+                        if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
+                            print(json)
+                        }
 
                         
                         do {
@@ -111,7 +111,7 @@ extension APIManager {
             request.httpBody = try? JSONSerialization.data(withJSONObject: _parameters, options: JSONSerialization.WritingOptions.prettyPrinted)
         }
         
-        AF.request(request).validate().responseJSON { response in
+        Alamofire.request(request).validate().responseJSON { response in
             switch response.result {
             case .success(_):
                 guard let data = response.data else {
@@ -119,9 +119,9 @@ extension APIManager {
                     return
                 }
                 
-//                if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-//                    //print(json)
-//                }
+               if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
+                   print(json)
+               }
                 
                 do {
                     let error = try JSONDecoder().decode(ErrorModel.self, from: data)
@@ -227,5 +227,4 @@ extension APIManager {
             failure(error)
         }
     }
-
 }

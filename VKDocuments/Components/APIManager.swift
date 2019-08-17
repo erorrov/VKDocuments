@@ -103,7 +103,8 @@ extension APIManager {
                  failure: @escaping FailureHandler) {
         
         let urlString = URLs.Base + path
-        var request = URLRequest.init(url: URL.init(string: urlString)!)
+        let encodedURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        var request = URLRequest.init(url: URL.init(string: encodedURL ?? "")!)
         request.httpMethod = method.rawValue
         
         if let _parameters = parameters {
@@ -190,7 +191,7 @@ extension APIManager {
             return
         }
         
-        let requestURL = String.init(format: "docs.get?owner_id=%@&count=%d&offset=%d&access_token=%@&v=5.101", ownerID, count, offset, token)
+        let requestURL = String(format: "docs.get?owner_id=%@&count=%d&offset=%d&access_token=%@&v=5.101", ownerID, count, offset, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)
@@ -199,12 +200,12 @@ extension APIManager {
         }
     }
     
-    func deleteDocument(ownerID: String, docID: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+    func deleteDocument(ownerID: Int, docID: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
         guard let token = self.token else {
             return
         }
         
-        let requestURL = String.init(format: "docs.delete?owner_id=%@&doc_id=%d&access_token=%@&v=5.101", ownerID, docID, token)
+        let requestURL = String(format: "docs.delete?owner_id=%d&doc_id=%d&access_token=%@&v=5.101", ownerID, docID, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)
@@ -213,12 +214,12 @@ extension APIManager {
         }
     }
     
-    func editDocument(ownerID: String, docID: Int, title: String, tags: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+    func editDocument(ownerID: Int, docID: Int, title: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
         guard let token = self.token else {
             return
         }
         
-        let requestURL = String.init(format: "docs.edit?owner_id=%@&doc_id=%d&title=%@&tags=%@&access_token=%@&v=5.101", ownerID, docID, title, tags, token)
+        let requestURL = String(format: "docs.edit?owner_id=%d&doc_id=%d&title=%@&access_token=%@&v=5.101", ownerID, docID, title, token)
         
         self.request(requestURL, method: .get, success: { (data) in
             success(data)

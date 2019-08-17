@@ -43,7 +43,6 @@ final class LoginViewController: BaseViewController {
     
     @IBAction func signUpAction(_ sender: UIButton) {
         let url = URL(string: "https://m.vk.com/join")!
-        let controller = SFSafariViewController.init(url: url)
-        self.present(controller, animated: true, completion: nil)
+        self.openSafari(url: url)
     }
 }

@@ -11,6 +11,7 @@ import UIKit
 protocol DocumentCellDelegate: class {
     func renameOnCell(cell: DocumentCell)
     func deleteOnCell(cell: DocumentCell)
+    func openDocumentOnCell(cell: DocumentCell)
 }
 
 final class DocumentCell: UITableViewCell {
@@ -24,8 +25,6 @@ final class DocumentCell: UITableViewCell {
     @IBOutlet private weak var documentNameLabel: UILabel!
     @IBOutlet private weak var documentDescriptionLabel: UILabel!
     
-    var document: Document?
-    
     @IBOutlet private weak var scrollView: UIScrollView!
     
     override func prepareForReuse() {
@@ -34,8 +33,6 @@ final class DocumentCell: UITableViewCell {
         documentTypeImageView.image = nil
         documentNameLabel.text = ""
         documentDescriptionLabel.text = ""
-        
-        self.document = nil
     }
 
     private func getFileIcon(byType type: Int) -> UIImage {
@@ -51,8 +48,6 @@ final class DocumentCell: UITableViewCell {
     }
     
     func update(for document: Document) {
-        self.document = document
-        
         documentNameLabel.text = document.title
         documentDescriptionLabel.text = document.descriptionString
         documentTypeImageView.image = self.getFileIcon(byType: document.type)
@@ -60,6 +55,10 @@ final class DocumentCell: UITableViewCell {
 }
 
 extension DocumentCell {
+    
+    @IBAction func selectCellAction(_ sender: UIButton) {
+        self.delegate?.openDocumentOnCell(cell: self)
+    }
     
     @IBAction func renameAction(_ sender: UIButton) {
         self.delegate?.renameOnCell(cell: self)

@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE161E1D230491E900D188FC /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE161E1C230491E900D188FC /* SVProgressHUD.framework */; };
 		DE161E1F2304928700D188FC /* SVProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E1E2304928700D188FC /* SVProgressHUD.swift */; };
 		DE161E26230498CE00D188FC /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E24230498CE00D188FC /* DocumentCell.swift */; };
 		DE4AA2C7230161F9008043D1 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C6230161F9008043D1 /* UserManager.swift */; };
 		DE4AA2C9230165BF008043D1 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C8230165BF008043D1 /* APIConstants.swift */; };
 		DE4AA2CB230167A6008043D1 /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */; };
 		DE4AA2CD23016AE8008043D1 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2CC23016AE8008043D1 /* APIManager.swift */; };
+		DE5973BB2308974E00804FB6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9364792301A2360098DD0F /* Alamofire.framework */; };
+		DE5973BC2308974E00804FB6 /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE161E1C230491E900D188FC /* SVProgressHUD.framework */; };
+		DE5973BF23089A2900804FB6 /* DocumentPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5973BE23089A2900804FB6 /* DocumentPreviewViewController.swift */; };
 		DE7634C123005BAB00BF90C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634C023005BAB00BF90C5 /* AppDelegate.swift */; };
 		DE7634C323005BAB00BF90C5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634C223005BAB00BF90C5 /* MainViewController.swift */; };
 		DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D323005ECA00BF90C5 /* Constants.swift */; };
@@ -28,7 +30,6 @@
 		DE9364872301E5380098DD0F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE9364862301E5380098DD0F /* LoginViewController.swift */; };
 		DE9CC13A2303165F002AD56D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9CC1392303165F002AD56D /* LaunchScreen.storyboard */; };
 		DE9CC13C23031670002AD56D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9CC13B23031670002AD56D /* Main.storyboard */; };
-		DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE9364792301A2360098DD0F /* Alamofire.framework */; };
 		DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9A823033F46000C6223 /* WKLoginViewController.swift */; };
 		DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC6C9AB23034AEF000C6223 /* Notification.swift */; };
 		DEFE542F23041B04004DCFE1 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFE542E23041B04004DCFE1 /* Document.swift */; };
@@ -42,6 +43,7 @@
 		DE4AA2C8230165BF008043D1 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
 		DE4AA2CC23016AE8008043D1 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		DE5973BE23089A2900804FB6 /* DocumentPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreviewViewController.swift; sourceTree = "<group>"; };
 		DE7634BD23005BAB00BF90C5 /* VKDocuments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKDocuments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7634C023005BAB00BF90C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE7634C223005BAB00BF90C5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -70,8 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEC6C9A723033D71000C6223 /* Alamofire.framework in Frameworks */,
-				DE161E1D230491E900D188FC /* SVProgressHUD.framework in Frameworks */,
+				DE5973BB2308974E00804FB6 /* Alamofire.framework in Frameworks */,
+				DE5973BC2308974E00804FB6 /* SVProgressHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,14 @@
 				DE93647C2301B3080098DD0F /* APIError.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		DE5973BD23089A1700804FB6 /* DocumentPreview */ = {
+			isa = PBXGroup;
+			children = (
+				DE5973BE23089A2900804FB6 /* DocumentPreviewViewController.swift */,
+			);
+			path = DocumentPreview;
 			sourceTree = "<group>";
 		};
 		DE7634B423005BAB00BF90C5 = {
@@ -183,6 +193,7 @@
 		DE936488230207B30098DD0F /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				DE5973BD23089A1700804FB6 /* DocumentPreview */,
 				DEC0F1E323048B5400EF20CD /* Cell */,
 				DE7634C223005BAB00BF90C5 /* MainViewController.swift */,
 			);
@@ -334,6 +345,7 @@
 				DE4AA2C7230161F9008043D1 /* UserManager.swift in Sources */,
 				DEC6C9AC23034AEF000C6223 /* Notification.swift in Sources */,
 				DEC6C9A923033F46000C6223 /* WKLoginViewController.swift in Sources */,
+				DE5973BF23089A2900804FB6 /* DocumentPreviewViewController.swift in Sources */,
 				DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */,
 				DE161E26230498CE00D188FC /* DocumentCell.swift in Sources */,
 				DE93647D2301B3080098DD0F /* APIError.swift in Sources */,

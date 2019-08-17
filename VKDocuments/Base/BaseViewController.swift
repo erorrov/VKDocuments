@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SafariServices
 
 class BaseViewController: UIViewController {
     private var statusBarStyle: UIStatusBarStyle?
@@ -45,5 +45,10 @@ class BaseViewController: UIViewController {
 extension BaseViewController {
     func didTapView() {
         self.view.endEditing(true)
+    }
+    
+    func openSafari(url: URL) {
+        let controller = SFSafariViewController.init(url: url)
+        self.present(controller, animated: true, completion: nil)
     }
 }

@@ -228,3 +228,35 @@ extension APIManager {
         }
     }
 }
+
+
+// MARK: - Custom Methods
+
+extension APIManager {
+    func downloadDocument(url: String, fileExtension: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
+        guard let url = URL.init(string: url) else {
+            return
+        }
+        
+        print(url)
+        
+        let request = URLRequest.init(url: url)
+        
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            documentsURL.appendPathComponent("document.\(fileExtension)")
+            return (documentsURL, [.removePreviousFile])
+        }
+        
+        Alamofire.download(request, to: destination).responseData { response in
+            if let destinationUrl = response.destinationURL {
+                print("destinationUrl \(destinationUrl.absoluteURL)")
+                if let error = response.error {
+                    failure(error)
+                } else {
+                    success(destinationUrl.absoluteURL)
+                }
+            }
+        }
+    }
+}

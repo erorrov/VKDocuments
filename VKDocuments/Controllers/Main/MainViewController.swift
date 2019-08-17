@@ -10,7 +10,6 @@ import UIKit
 import SVProgressHUD
 
 final class MainViewController: BaseViewController {
-
     static func initialization() -> MainViewController {
         let storyboard = UIStoryboard.init(name: StoryboardIDs.main.rawValue, bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: ControllerStoryboardIDs.main.rawValue) as! MainViewController
@@ -63,9 +62,18 @@ final class MainViewController: BaseViewController {
         self.initialLoad = true
         loadData()
     }
-}
-
-private extension MainViewController {
+    
+    func deleteCell(index: Int) {
+        self.documentsArray.remove(at: index)
+        self.tableView.beginUpdates()
+        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
+        self.tableView.endUpdates()
+    }
+    
+    func renameCell(index: Int, actualName: String) {
+        self.documentsArray[index].title = actualName
+        self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .top)
+    }
     
     func loadData() {
         if isDataLoading || isEndReached {
@@ -107,24 +115,24 @@ private extension MainViewController {
         }
     }
     
-    func deleteDocument(ownerID: Int, documentID: Int) {
+    func deleteDocument(ownerID: Int, documentID: Int, index: Int) {
         SVProgressHUD.show()
         
         SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { (response) in
             SVProgressHUD.hideOnMain()
-            self.updateData()
+            self.deleteCell(index: index)
         }) { (error) in
             SVProgressHUD.hideOnMain()
             print(error)
         }
     }
     
-    func editDocument(ownerID: Int, documentID: Int, title: String) {
+    func editDocument(ownerID: Int, documentID: Int, title: String, index: Int) {
         SVProgressHUD.show()
         
         SC.services.apiManager.editDocument(ownerID: ownerID, docID: documentID, title: title, success: { (response) in
             SVProgressHUD.hideOnMain()
-            self.updateData()
+            self.renameCell(index: index, actualName: title)
         }) { (error) in
             SVProgressHUD.hideOnMain()
             print(error)
@@ -139,9 +147,11 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DocumentCell.identifier, for: indexPath) as! DocumentCell
-        cell.update(for: self.documentsArray[indexPath.row])
-        cell.delegate = self
         
+        if self.documentsArray.count > 0 {
+            cell.update(for: self.documentsArray[indexPath.row])
+        }
+        cell.delegate = self
         return cell
     }
 }
@@ -154,7 +164,7 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // print("current offset = \(scrollView.contentOffset.y)")
+        //print("current offset = \(scrollView.contentOffset.y)")
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.height && scrollView.contentSize.height > scrollView.frame.height {
             loadData()
         }
@@ -177,7 +187,7 @@ extension MainViewController: DocumentCellDelegate {
                 return
             }
             
-            self.editDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, title: textField.text ?? "")
+            self.editDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, title: textField.text ?? "", index: indexPath.row)
         }))
         
         self.present(alert, animated: true, completion: nil)
@@ -192,7 +202,7 @@ extension MainViewController: DocumentCellDelegate {
                 return
             }
             
-            self.deleteDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id)
+            self.deleteDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, index: indexPath.row)
         }))
         
         self.present(alert, animated: true, completion: nil)

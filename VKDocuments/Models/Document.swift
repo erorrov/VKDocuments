@@ -40,7 +40,7 @@ class Documents: Codable {
 struct Document: Codable {
     
     let id: Int
-    let title: String
+    var title: String
     let size: Int
     let ext: String
     let url: String

@@ -46,6 +46,7 @@ struct Document: Codable {
     let url: String
     let date: Int
     let type: Int
+    let ownerID: Int
     
     private enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -55,6 +56,7 @@ struct Document: Codable {
         case url = "url"
         case date = "date"
         case type = "type"
+        case ownerID = "owner_id"
     }
 }
 

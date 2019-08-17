@@ -10,7 +10,6 @@
 		DE161E1D230491E900D188FC /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE161E1C230491E900D188FC /* SVProgressHUD.framework */; };
 		DE161E1F2304928700D188FC /* SVProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E1E2304928700D188FC /* SVProgressHUD.swift */; };
 		DE161E26230498CE00D188FC /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE161E24230498CE00D188FC /* DocumentCell.swift */; };
-		DE161E27230498CE00D188FC /* DocumentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE161E25230498CE00D188FC /* DocumentCell.xib */; };
 		DE4AA2C7230161F9008043D1 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C6230161F9008043D1 /* UserManager.swift */; };
 		DE4AA2C9230165BF008043D1 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2C8230165BF008043D1 /* APIConstants.swift */; };
 		DE4AA2CB230167A6008043D1 /* ServiceContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */; };
@@ -20,6 +19,7 @@
 		DE7634D423005ECA00BF90C5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D323005ECA00BF90C5 /* Constants.swift */; };
 		DE7634D723005FF300BF90C5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7634D623005FF300BF90C5 /* BaseViewController.swift */; };
 		DE7BC17223055673002B9B71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE7BC17123055673002B9B71 /* Assets.xcassets */; };
+		DE8373672306DF9C005C173F /* DocumentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE8373652306DF9C005C173F /* DocumentCell.xib */; };
 		DE93647D2301B3080098DD0F /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647C2301B3080098DD0F /* APIError.swift */; };
 		DE93647F2301B4FF0098DD0F /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE93647E2301B4FF0098DD0F /* Responses.swift */; };
 		DE9364812301E42A0098DD0F /* Root.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE9364802301E42A0098DD0F /* Root.storyboard */; };
@@ -38,7 +38,6 @@
 		DE161E1C230491E900D188FC /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		DE161E1E2304928700D188FC /* SVProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SVProgressHUD.swift; sourceTree = "<group>"; };
 		DE161E24230498CE00D188FC /* DocumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
-		DE161E25230498CE00D188FC /* DocumentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCell.xib; sourceTree = "<group>"; };
 		DE4AA2C6230161F9008043D1 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		DE4AA2C8230165BF008043D1 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		DE4AA2CA230167A6008043D1 /* ServiceContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContainer.swift; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		DE7634D323005ECA00BF90C5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DE7634D623005FF300BF90C5 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		DE7BC17123055673002B9B71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DE8373652306DF9C005C173F /* DocumentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentCell.xib; sourceTree = "<group>"; };
 		DE9364792301A2360098DD0F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		DE93647C2301B3080098DD0F /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		DE93647E2301B4FF0098DD0F /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				DE161E24230498CE00D188FC /* DocumentCell.swift */,
-				DE161E25230498CE00D188FC /* DocumentCell.xib */,
+				DE8373652306DF9C005C173F /* DocumentCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -282,11 +282,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE161E27230498CE00D188FC /* DocumentCell.xib in Resources */,
 				DE9CC13C23031670002AD56D /* Main.storyboard in Resources */,
 				DE9CC13A2303165F002AD56D /* LaunchScreen.storyboard in Resources */,
 				DE9364812301E42A0098DD0F /* Root.storyboard in Resources */,
 				DE7BC17223055673002B9B71 /* Assets.xcassets in Resources */,
+				DE8373672306DF9C005C173F /* DocumentCell.xib in Resources */,
 				DE9364832301E4F20098DD0F /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

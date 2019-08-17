@@ -77,6 +77,28 @@ final class MainViewController: BaseViewController {
             print(error)
         }
     }
+    
+    func deleteDocument(ownerID: Int, documentID: Int) {
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { (response) in
+            SVProgressHUD.hideOnMain()
+        }) { (error) in
+            SVProgressHUD.hideOnMain()
+            print(error)
+        }
+    }
+    
+    func editDocument(ownerID: Int, documentID: Int, title: String) {
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.editDocument(ownerID: ownerID, docID: documentID, title: title, success: { (response) in
+            SVProgressHUD.hideOnMain()
+        }) { (error) in
+            SVProgressHUD.hideOnMain()
+            print(error)
+        }
+    }
 }
 
 extension MainViewController: UITableViewDataSource {
@@ -87,6 +109,7 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DocumentCell.identifier, for: indexPath) as! DocumentCell
         cell.update(for: self.documentsArray[indexPath.row])
+        cell.delegate = self
         
         return cell
     }
@@ -97,3 +120,42 @@ extension MainViewController: UITableViewDelegate {
         return DocumentCell.height
     }
 }
+
+extension MainViewController: DocumentCellDelegate {
+    func renameOnCell(cell: DocumentCell) {
+        let alert = UIAlertController(title: "Переименовать файл", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.text = cell.document?.title
+        }
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Переименовать", style: .default, handler: { [weak alert] (_) in
+            let textField = alert!.textFields![0]
+            
+            guard let indexPath = self.tableView.indexPath(for: cell) else {
+                return
+            }
+            
+            self.editDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, title: textField.text ?? "")
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func deleteOnCell(cell: DocumentCell) {
+        let alert = UIAlertController(title: "Удаление файла", message: "Это действие нельзя будет отменить. Вы уверены что хотите удалить \(cell.document?.title ?? "этот файл")?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Удалить", style: .default, handler: { _ in
+            guard let indexPath = self.tableView.indexPath(for: cell) else {
+                return
+            }
+            
+            self.deleteDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+

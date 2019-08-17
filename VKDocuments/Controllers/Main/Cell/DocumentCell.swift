@@ -8,19 +8,34 @@
 
 import UIKit
 
+protocol DocumentCellDelegate: class {
+    func renameOnCell(cell: DocumentCell)
+    func deleteOnCell(cell: DocumentCell)
+}
+
 final class DocumentCell: UITableViewCell {
 
     static let identifier = "DocumentCell"
     static let height: CGFloat = UITableView.automaticDimension
     
+    weak var delegate: DocumentCellDelegate?
+    
     @IBOutlet private weak var documentTypeImageView: UIImageView!
     @IBOutlet private weak var documentNameLabel: UILabel!
     @IBOutlet private weak var documentDescriptionLabel: UILabel!
     
+    var document: Document?
+    
+    @IBOutlet private weak var scrollView: UIScrollView!
+    
     override func prepareForReuse() {
+        self.scrollView.contentOffset = CGPoint.zero
+        
         documentTypeImageView.image = nil
         documentNameLabel.text = ""
         documentDescriptionLabel.text = ""
+        
+        self.document = nil
     }
 
     private func getFileIcon(byType type: Int) -> UIImage {
@@ -36,8 +51,23 @@ final class DocumentCell: UITableViewCell {
     }
     
     func update(for document: Document) {
+        self.document = document
+        
         documentNameLabel.text = document.title
         documentDescriptionLabel.text = document.descriptionString
         documentTypeImageView.image = self.getFileIcon(byType: document.type)
     }
 }
+
+extension DocumentCell {
+    
+    @IBAction func renameAction(_ sender: UIButton) {
+        self.delegate?.renameOnCell(cell: self)
+    }
+    
+    @IBAction func deleteAction(_ sender: UIButton) {
+        self.delegate?.deleteOnCell(cell: self)
+    }
+    
+}
+

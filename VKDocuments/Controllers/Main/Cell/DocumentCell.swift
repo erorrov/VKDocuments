@@ -48,7 +48,7 @@ final class DocumentCell: UITableViewCell {
     }
     
     func update(for document: Document) {
-        documentNameLabel.text = document.title
+        documentNameLabel.text = document.title.count <= 0 ? "Без названия" : document.title
         documentDescriptionLabel.text = document.descriptionString
         documentTypeImageView.image = self.getFileIcon(byType: document.type)
     }

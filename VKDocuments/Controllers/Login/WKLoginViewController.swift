@@ -11,9 +11,8 @@ import WebKit
 import SVProgressHUD
 
 final class WKLoginViewController: BaseViewController {
-
     static func initialization() -> WKLoginViewController {
-        let storyboard = UIStoryboard.init(name: StoryboardIDs.login.rawValue, bundle: nil)
+        let storyboard = UIStoryboard(name: StoryboardIDs.login.rawValue, bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: ControllerStoryboardIDs.signIn.rawValue) as! WKLoginViewController
         return controller
     }
@@ -22,6 +21,8 @@ final class WKLoginViewController: BaseViewController {
     
     private var webView: WKWebView!
     
+    
+    // MARK: - View Controller LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -33,6 +34,8 @@ final class WKLoginViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    
+    // MARK: - UI Methods
     func setupUI() {  
         let webConfiguration = WKWebViewConfiguration()
         webConfiguration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
@@ -60,9 +63,11 @@ final class WKLoginViewController: BaseViewController {
     }
 }
 
-// TODO: hide result page
+
+// MARK: - WK Delegates
 extension WKLoginViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        // TODO: hide result page
         SVProgressHUD.show()
     }
     
@@ -70,24 +75,16 @@ extension WKLoginViewController: WKNavigationDelegate {
         SVProgressHUD.hideOnMain()
         
         let errorText: String
-        
         switch error._code {
-        case NSURLErrorNotConnectedToInternet:
-            errorText = "Проверьте соединение с интернетом"
-        case NSURLErrorTimedOut:
-            errorText = "Время ожидания загрузки страницы истекло"
-        default:
-            errorText = "Не получилось загрузить страницу авторизации"
+        case NSURLErrorNotConnectedToInternet: errorText = "Проверьте соединение с интернетом"
+        case NSURLErrorTimedOut: errorText = "Время ожидания загрузки страницы истекло"
+        default: errorText = "Не получилось загрузить страницу авторизации"
         }
         
         let alert = UIAlertController(title: "Ошибка", message: errorText, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Попробовать снова", style: .default, handler: { _ in
-            self.openAuthPage()
-        }))
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
-            self.navigationController?.popViewController(animated: true)
-        }))
+        alert.addAction(UIAlertAction(title: "Попробовать снова", style: .default, handler: { _ in self.openAuthPage() }))
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in self.navigationController?.popViewController(animated: true) }))
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -95,9 +92,7 @@ extension WKLoginViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         SVProgressHUD.hideOnMain()
         
-        guard let url = webView.url?.absoluteString, url.hasPrefix(URLs.AuthResult) else {
-            return
-        }
+        guard let url = webView.url?.absoluteString, url.hasPrefix(URLs.AuthResult) else { return }
         
         var params = [String:String]()
         let query = url.dropFirst(URLs.AuthResult.count).components(separatedBy: "&")

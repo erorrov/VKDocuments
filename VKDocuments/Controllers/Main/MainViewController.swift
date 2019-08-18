@@ -16,7 +16,9 @@ final class MainViewController: BaseViewController {
         return controller
     }
     
+    
     @IBOutlet private weak var tableView: UITableView!
+    
     private var documentsArray = [Document]()
     
     private var isDataLoading = false
@@ -30,23 +32,28 @@ final class MainViewController: BaseViewController {
         return refreshControl
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        
-        tableView.register(UINib.init(nibName: DocumentCell.identifier, bundle: nil), forCellReuseIdentifier: DocumentCell.identifier)
-        tableView.separatorStyle = .none
-        tableView.refreshControl = refreshControl
+        self.configureTableView()
     }
+
     
+    // MARK: - UI methods
     func setupUI() {
         loadData()
         
         let logoutButton = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(logout))
         self.navigationController?.navigationBar.tintColor = UIColor.blue
         self.navigationItem.rightBarButtonItem = logoutButton
-        
         self.title = "Мои документы"
+    }
+    
+    func configureTableView() {
+        tableView.register(UINib.init(nibName: DocumentCell.identifier, bundle: nil), forCellReuseIdentifier: DocumentCell.identifier)
+        tableView.separatorStyle = .none
+        tableView.refreshControl = refreshControl
     }
     
     @objc func logout() {
@@ -56,6 +63,8 @@ final class MainViewController: BaseViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
+    // MARK: - Data methods
     @objc func updateData() {
         self.documentsArray.removeAll()
         self.refreshControl.endRefreshing()
@@ -63,6 +72,70 @@ final class MainViewController: BaseViewController {
         loadData()
     }
     
+    func loadData() {
+        if isDataLoading || isEndReached { return }
+        if initialLoad { isEndReached = false }
+        isDataLoading = true
+        
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.getDocuments(ownerID: UserManager.manager.userID, count: 20, offset: self.documentsArray.count, success: { [weak self] response in
+            SVProgressHUD.hideOnMain()
+            self?.isDataLoading = false
+            
+            do {
+                let documents = try JSONDecoder().decode(Documents.self, from: response as! Data)
+                
+                // if offset greater or equal to total files count
+                if self?.documentsArray.count ?? 0 >= documents.count {
+                    self?.isEndReached = true
+                } else {
+                    if self?.initialLoad ?? false {
+                        self?.documentsArray = documents.documentsArray
+                        self?.initialLoad = false
+                    } else {
+                        self?.documentsArray.append(contentsOf: documents.documentsArray)
+                    }
+                    
+                    self?.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+            }
+        }) { error in
+            SVProgressHUD.hideOnMain()
+            print(error)
+        }
+    }
+    
+    
+    // MARK: - Deleting and Renaming documents
+    func deleteDocument(ownerID: Int, documentID: Int, index: Int) {
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { response in
+            SVProgressHUD.hideOnMain()
+            self.deleteCell(index: index)
+        }) { error in
+            SVProgressHUD.hideOnMain()
+            print(error)
+        }
+    }
+    
+    func editDocument(ownerID: Int, documentID: Int, title: String, index: Int) {
+        SVProgressHUD.show()
+        
+        SC.services.apiManager.editDocument(ownerID: ownerID, docID: documentID, title: title, success: { response in
+            SVProgressHUD.hideOnMain()
+            self.renameCell(index: index, actualName: title)
+        }) { error in
+            SVProgressHUD.hideOnMain()
+            print(error)
+        }
+    }
+    
+    
+    // MARK: - Deleting and Renaming cells
     func deleteCell(index: Int) {
         self.documentsArray.remove(at: index)
         self.tableView.beginUpdates()
@@ -74,72 +147,10 @@ final class MainViewController: BaseViewController {
         self.documentsArray[index].title = actualName
         self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .top)
     }
-    
-    func loadData() {
-        if isDataLoading || isEndReached {
-            return
-        }
-        
-        if initialLoad == true {
-            isEndReached = false
-        }
-        
-        isDataLoading = true
-        
-        SVProgressHUD.show()
-        
-        SC.services.apiManager.getDocuments(ownerID: UserManager.manager.userID, count: 20, offset: self.documentsArray.count, success: { [weak self] (response) in
-            SVProgressHUD.hideOnMain()
-            self?.isDataLoading = false
-            
-            do {
-                let documents = try JSONDecoder().decode(Documents.self, from: response as! Data)
-                
-                if self?.documentsArray.count ?? 0 >= documents.count {
-                    self?.isEndReached = true
-                } else {
-                    if self?.initialLoad ?? false {
-                        self?.documentsArray = documents.documentsArray
-                        self?.initialLoad = false
-                    } else {
-                        self?.documentsArray.append(contentsOf: documents.documentsArray)
-                    }
-                    self?.tableView.reloadData()
-                }
-            } catch {
-                print(error)
-            }
-        }) { (error) in
-            SVProgressHUD.hideOnMain()
-            print(error)
-        }
-    }
-    
-    func deleteDocument(ownerID: Int, documentID: Int, index: Int) {
-        SVProgressHUD.show()
-        
-        SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { (response) in
-            SVProgressHUD.hideOnMain()
-            self.deleteCell(index: index)
-        }) { (error) in
-            SVProgressHUD.hideOnMain()
-            print(error)
-        }
-    }
-    
-    func editDocument(ownerID: Int, documentID: Int, title: String, index: Int) {
-        SVProgressHUD.show()
-        
-        SC.services.apiManager.editDocument(ownerID: ownerID, docID: documentID, title: title, success: { (response) in
-            SVProgressHUD.hideOnMain()
-            self.renameCell(index: index, actualName: title)
-        }) { (error) in
-            SVProgressHUD.hideOnMain()
-            print(error)
-        }
-    }
 }
 
+
+// MARK: - TableView Data Source and Delegate Methods
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.documentsArray.count
@@ -147,11 +158,11 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DocumentCell.identifier, for: indexPath) as! DocumentCell
-        
         if self.documentsArray.count > 0 {
             cell.update(for: self.documentsArray[indexPath.row])
         }
         cell.delegate = self
+        
         return cell
     }
     
@@ -169,71 +180,59 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //print("current offset = \(scrollView.contentOffset.y)")
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.height && scrollView.contentSize.height > scrollView.frame.height {
             loadData()
         }
     }
 }
 
-extension MainViewController: DocumentCellDelegate {
-    
-    func openDocumentOnCell(cell: DocumentCell) {
-        
-        guard let indexPath = self.tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        SVProgressHUD.show()
-        
-        SC.services.apiManager.downloadDocument(url: self.documentsArray[indexPath.row].url, fileExtension: self.documentsArray[indexPath.row].ext, success: { (response) in
-            SVProgressHUD.hideOnMain()
-            
-            guard let url = response as? URL else {
-                return
-            }
-            print(url)
 
+// MARK: - Document Cell Actions
+extension MainViewController: DocumentCellDelegate {
+    func openDocumentOnCell(cell: DocumentCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        SVProgressHUD.show() // withStatus: "Загрузка документа"
+        
+        let doc = self.documentsArray[indexPath.row]
+        SC.services.apiManager.downloadDocument(url: doc.url, fileExtension: doc.ext, success: { response in
+            SVProgressHUD.hideOnMain()
+            guard let url = response as? URL else { return }
+            print(url)
             self.navigationController?.pushViewController(DocumentPreviewViewController.initialization(fileURL: url), animated: true)
-            
-        }) { (error) in
+        }) { error in
             SVProgressHUD.hideOnMain()
             print(error)
         }
-        
     }
     
+    
+    // TODO: check newName without API request
     func renameOnCell(cell: DocumentCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        
+        let doc = self.documentsArray[indexPath.row]
         let alert = UIAlertController(title: "Переименовать файл", message: nil, preferredStyle: .alert)
         
-        guard let indexPath = self.tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        alert.addTextField { (textField) in
-            textField.text = self.documentsArray[indexPath.row].title
-        }
-        
+        alert.addTextField { textField in textField.text = doc.title }
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Переименовать", style: .default, handler: { [weak alert] (_) in
-            let textField = alert!.textFields![0]
-            self.editDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, title: textField.text ?? "", index: indexPath.row)
+        alert.addAction(UIAlertAction(title: "Переименовать", style: .default, handler: { [weak alert] _ in
+            let newName = alert!.textFields![0].text ?? doc.title
+            self.editDocument(ownerID: doc.ownerID, documentID: doc.id, title: newName, index: indexPath.row)
         }))
         
         self.present(alert, animated: true, completion: nil)
     }
     
+    
     func deleteOnCell(cell: DocumentCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
         
-        guard let indexPath = self.tableView.indexPath(for: cell) else {
-            return
-        }
-        
-        let alert = UIAlertController(title: "Удаление файла", message: "Это действие нельзя будет отменить. Вы уверены что хотите удалить \(self.documentsArray[indexPath.row].title)?", preferredStyle: .alert)
+        let doc = self.documentsArray[indexPath.row]
+        let alert = UIAlertController(title: "Удаление файла", message: "Это действие нельзя будет отменить. Вы уверены что хотите удалить \(doc.title)?", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Удалить", style: .default, handler: { _ in
-            self.deleteDocument(ownerID: self.documentsArray[indexPath.row].ownerID, documentID: self.documentsArray[indexPath.row].id, index: indexPath.row)
+            self.deleteDocument(ownerID: doc.ownerID, documentID: doc.id, index: indexPath.row)
         }))
         
         self.present(alert, animated: true, completion: nil)

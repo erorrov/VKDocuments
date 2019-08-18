@@ -11,4 +11,3 @@ import Foundation
 extension Notification.Name {
     static let updateRootController = Notification.Name(rawValue: "UpdateRootController")
 }
-

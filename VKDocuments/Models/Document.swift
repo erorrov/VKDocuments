@@ -9,7 +9,6 @@
 import Foundation
 
 class Documents: Codable {
-    
     var documentsArray: [Document]
     var count: Int
     
@@ -37,8 +36,8 @@ class Documents: Codable {
     }
 }
 
+
 struct Document: Codable {
-    
     let id: Int
     var title: String
     let size: Int
@@ -60,8 +59,8 @@ struct Document: Codable {
     }
 }
 
+
 extension Document {
-    
     var dateString: String {
         let date = Date(timeIntervalSince1970: TimeInterval(self.date))
         let calendar = Calendar.current

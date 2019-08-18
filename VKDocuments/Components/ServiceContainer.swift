@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 typealias SC = ServiceContainer
 
 final class ServiceContainer {
@@ -21,4 +20,3 @@ final class ServiceContainer {
         return SC.container
     }
 }
-

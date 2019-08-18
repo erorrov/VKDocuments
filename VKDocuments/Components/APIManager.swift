@@ -9,9 +9,7 @@
 import UIKit
 import Alamofire
 
-
 final class APIManager {
-    
     typealias SuccessHandler = (Any) -> Void
     typealias FailureHandler = (Error) -> Void
     typealias ProgressHandler = (CGFloat) -> Void
@@ -31,18 +29,16 @@ final class APIManager {
         UserManager.manager.userLogout()
         NotificationCenter.default.post(name: NSNotification.Name.updateRootController, object: nil)
     }
-    
 }
 
 
 // MARK: - Requests, Abstract
-
 extension APIManager {
     func request(_ path: String,
                  method: Alamofire.HTTPMethod,
                  parameters: Parameters? = nil,
                  encoding: ParameterEncoding = JSONEncoding.default,
-                 success: @escaping (Data)->Void,
+                 success: @escaping (Data) -> Void,
                  failure: @escaping FailureHandler) {
         
         let headers = HTTPHeaders()
@@ -57,7 +53,7 @@ extension APIManager {
                     switch response.result {
                     case .success(_):
                         guard let data = response.data else {
-                            failure(APIError.init(code: .serverResultCodeParseError, errorDescription: "")!)
+                            failure(APIError(code: .serverResultCodeParseError, errorDescription: "")!)
                             return
                         }
                         
@@ -69,7 +65,7 @@ extension APIManager {
                         do {
                             let error = try JSONDecoder().decode(ErrorModel.self, from: data)
                             if error.success == false {
-                                failure(APIError.init(code: .serverResultCodeParseError, errorDescription: error.message)!)
+                                failure(APIError(code: .serverResultCodeParseError, errorDescription: error.message)!)
                             } else {
                                 success(data)
                             }
@@ -84,7 +80,7 @@ extension APIManager {
                         } else if let data = response.data {
                             if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
                                 if let string = json["Message"] as? String {
-                                    failure(APIError.init(code: .consultationCompleted, errorDescription: string)!)
+                                    failure(APIError(code: .consultationCompleted, errorDescription: string)!)
                                     return
                                 }
                             }
@@ -99,12 +95,12 @@ extension APIManager {
     func request(_ path: String,
                  method: HTTPMethods,
                  parameters: [String]? = nil,
-                 success: @escaping (Data)->(),
+                 success: @escaping (Data) -> Void,
                  failure: @escaping FailureHandler) {
         
         let urlString = URLs.Base + path
         let encodedURL = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        var request = URLRequest.init(url: URL.init(string: encodedURL ?? "")!)
+        var request = URLRequest(url: URL(string: encodedURL ?? "")!)
         request.httpMethod = method.rawValue
         
         if let _parameters = parameters {
@@ -115,7 +111,7 @@ extension APIManager {
             switch response.result {
             case .success(_):
                 guard let data = response.data else {
-                    failure(APIError.init(code: .serverResultCodeParseError, errorDescription: "")!)
+                    failure(APIError(code: .serverResultCodeParseError, errorDescription: "")!)
                     return
                 }
                 
@@ -126,7 +122,7 @@ extension APIManager {
                 do {
                     let error = try JSONDecoder().decode(ErrorModel.self, from: data)
                     if error.success == false {
-                        failure(APIError.init(code: .serverResultCodeParseError, errorDescription: error.message)!)
+                        failure(APIError(code: .serverResultCodeParseError, errorDescription: error.message)!)
                     } else {
                         success(data)
                     }
@@ -140,7 +136,7 @@ extension APIManager {
                 } else if let data = response.data {
                     if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
                         if let string = json["Message"] as? String {
-                            failure(APIError.init(code: .serverResultCodeParseError, errorDescription: string)!)
+                            failure(APIError(code: .serverResultCodeParseError, errorDescription: string)!)
                             return
                         }
                     }
@@ -154,15 +150,13 @@ extension APIManager {
     func serialize(_ value: Any) -> Data? {
         if JSONSerialization.isValidJSONObject(value) {
             return try? JSONSerialization.data(withJSONObject: value, options: [])
-        }
-        else {
+        } else {
             return String(describing: value).data(using: .utf8)
         }
     }
 }
 
 internal extension APIManager {
-    
     enum HTTPHeaderError : Error {
         case unsupportedHTTPMethod(method : Alamofire.HTTPMethod)
     }
@@ -183,47 +177,37 @@ internal extension APIManager {
 
 
 // MARK: - API Methods
-
 extension APIManager {
     
     func getDocuments(ownerID: String, count: Int, offset: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
-        guard let token = self.token else {
-            return
-        }
+        guard let token = self.token else { return }
         
         let requestURL = String(format: "docs.get?owner_id=%@&count=%d&offset=%d&access_token=%@&v=5.101", ownerID, count, offset, token)
-        
-        self.request(requestURL, method: .get, success: { (data) in
+        self.request(requestURL, method: .get, success: { data in
             success(data)
-        }) { (error) in
+        }) { error in
             failure(error)
         }
     }
     
     func deleteDocument(ownerID: Int, docID: Int, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
-        guard let token = self.token else {
-            return
-        }
-        
+        guard let token = self.token else { return }
+
         let requestURL = String(format: "docs.delete?owner_id=%d&doc_id=%d&access_token=%@&v=5.101", ownerID, docID, token)
-        
-        self.request(requestURL, method: .get, success: { (data) in
+        self.request(requestURL, method: .get, success: { data in
             success(data)
-        }) { (error) in
+        }) { error in
             failure(error)
         }
     }
     
     func editDocument(ownerID: Int, docID: Int, title: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
-        guard let token = self.token else {
-            return
-        }
+        guard let token = self.token else { return }
         
         let requestURL = String(format: "docs.edit?owner_id=%d&doc_id=%d&title=%@&access_token=%@&v=5.101", ownerID, docID, title, token)
-        
-        self.request(requestURL, method: .get, success: { (data) in
+        self.request(requestURL, method: .get, success: { data in
             success(data)
-        }) { (error) in
+        }) { error in
             failure(error)
         }
     }
@@ -231,16 +215,13 @@ extension APIManager {
 
 
 // MARK: - Custom Methods
-
 extension APIManager {
     func downloadDocument(url: String, fileExtension: String, success: @escaping SuccessHandler, failure: @escaping FailureHandler) {
-        guard let url = URL.init(string: url) else {
-            return
-        }
+        guard let url = URL(string: url) else { return }
         
         print(url)
         
-        let request = URLRequest.init(url: url)
+        let request = URLRequest(url: url)
         
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
             var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]

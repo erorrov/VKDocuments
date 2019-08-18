@@ -11,7 +11,7 @@ import WebKit
 
 final class DocumentPreviewViewController: BaseViewController {
     static func initialization(fileURL: URL) -> DocumentPreviewViewController {
-        let storyboard = UIStoryboard.init(name: StoryboardIDs.main.rawValue, bundle: nil)
+        let storyboard = UIStoryboard(name: StoryboardIDs.main.rawValue, bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: ControllerStoryboardIDs.documentPreview.rawValue) as! DocumentPreviewViewController
         controller.fileURL = fileURL
         return controller
@@ -49,9 +49,7 @@ final class DocumentPreviewViewController: BaseViewController {
     }
     
     @objc func shareAction() {
-        guard let fileURL = self.fileURL, let shareData = NSData(contentsOf: fileURL) else {
-            return
-        }
+        guard let fileURL = self.fileURL, let shareData = NSData(contentsOf: fileURL) else { return }
         
         let activityViewController = UIActivityViewController(activityItems: [shareData as Any] , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
@@ -59,6 +57,8 @@ final class DocumentPreviewViewController: BaseViewController {
     }
 }
 
+
+// MARK: - WK Delegates
 extension DocumentPreviewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         self.errorView.isHidden = false

@@ -10,19 +10,13 @@ import UIKit
 import SVProgressHUD
 
 class RootViewController: UIViewController {
-    
     @IBOutlet weak var logoImage: UIImageView!
     
+    // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SVProgressHUD.setDefaultStyle(.dark)
-        SVProgressHUD.setDefaultMaskType(.black)
-        SVProgressHUD.setBackgroundColor(UIColor.white)
-        SVProgressHUD.setForegroundColor(UIColor.blue)
-        SVProgressHUD.setCornerRadius(7)
-        SVProgressHUD.setMinimumSize(CGSize.init(width: 100, height: 100))
-        
+        self.setupSVProgressHUD()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateMainController), name: NSNotification.Name.updateRootController, object: nil)
@@ -38,23 +32,28 @@ class RootViewController: UIViewController {
         }
     }
     
-    // TODO: Animation
+    
+    // MARK: - UI configs
+    func setupSVProgressHUD() {
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.blue)
+        SVProgressHUD.setCornerRadius(7)
+        SVProgressHUD.setMinimumSize(CGSize.init(width: 100, height: 100))
+    }
+    
+    
+    // MARK: - Routing
     func openLoginView() {
         self.present(UINavigationController.init(rootViewController: LoginViewController.initialization()), animated: false)
     }
     
-    // TODO: Animation
     func openMainView() {        
         self.present(UINavigationController.init(rootViewController: MainViewController.initialization()), animated: false)
     }
 
-}
-
-
-private extension RootViewController {
-    
     @objc func updateMainController() {
         self.dismiss(animated: true, completion: nil)
     }
-    
 }

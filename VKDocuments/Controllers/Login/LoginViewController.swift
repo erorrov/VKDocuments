@@ -10,9 +10,8 @@ import UIKit
 import SafariServices
 
 final class LoginViewController: BaseViewController {
-    
     static func initialization() -> LoginViewController {
-        let storyboard = UIStoryboard.init(name: StoryboardIDs.login.rawValue, bundle: nil)
+        let storyboard = UIStoryboard(name: StoryboardIDs.login.rawValue, bundle: nil)
         let controller = storyboard.instantiateViewController(withIdentifier: ControllerStoryboardIDs.login.rawValue) as! LoginViewController
         return controller
     }
@@ -20,6 +19,8 @@ final class LoginViewController: BaseViewController {
     @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var authButton: UIButton!
     
+    
+    // MARK: - View Controller LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
@@ -30,6 +31,8 @@ final class LoginViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    
+    // MARK: - UI Methods
     func setupUI() {
         self.navigationController?.navigationBar.isHidden = true
         
@@ -37,6 +40,8 @@ final class LoginViewController: BaseViewController {
         self.authButton.layer.cornerRadius = 5
     }
     
+    
+    // MARK: - Actions
     @IBAction func signInAction(_ sender: UIButton) {
         self.navigationController?.pushViewController(WKLoginViewController.initialization(), animated: true)
     }

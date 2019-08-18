@@ -8,9 +8,7 @@
 
 import Foundation
 
-
 final class UserManager {
-    
     static let manager = UserManager()
     
     func isUserLogin() -> Bool {

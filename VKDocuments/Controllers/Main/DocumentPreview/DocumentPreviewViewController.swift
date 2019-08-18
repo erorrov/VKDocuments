@@ -49,8 +49,7 @@ final class DocumentPreviewViewController: BaseViewController {
     }
     
     @objc func shareAction() {
-        let shareData = URL(fileURLWithPath: self.fileURL.absoluteString)
-        let activityViewController = UIActivityViewController(activityItems: [shareData], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: [self.fileURL as Any], applicationActivities: [])
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }

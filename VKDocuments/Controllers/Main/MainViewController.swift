@@ -114,6 +114,7 @@ final class MainViewController: BaseViewController {
     }
     
     @IBAction func updateAction(_ sender: UIButton) {
+        self.isEndReached = false
         self.updateData()
     }
     

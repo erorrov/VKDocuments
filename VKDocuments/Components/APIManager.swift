@@ -35,64 +35,6 @@ final class APIManager {
 // MARK: - Requests, Abstract
 extension APIManager {
     func request(_ path: String,
-                 method: Alamofire.HTTPMethod,
-                 parameters: Parameters? = nil,
-                 encoding: ParameterEncoding = JSONEncoding.default,
-                 success: @escaping (Data) -> Void,
-                 failure: @escaping FailureHandler) {
-        
-        let headers = HTTPHeaders()
-        let urlString = URLs.Base + path
-        
-        Alamofire.request(urlString,
-                   method: method,
-                   parameters: parameters,
-                   encoding: encoding,
-                   headers: headers).validate().responseJSON { response in
-                    
-                    switch response.result {
-                    case .success(_):
-                        guard let data = response.data else {
-                            failure(APIError(code: .serverResultCodeParseError, errorDescription: "")!)
-                            return
-                        }
-                        
-                        if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                            print(json)
-                        }
-
-                        
-                        do {
-                            let error = try JSONDecoder().decode(ErrorModel.self, from: data)
-                            if error.success == false {
-                                failure(APIError(code: .serverResultCodeParseError, errorDescription: error.message)!)
-                            } else {
-                                success(data)
-                            }
-                        } catch {
-                            success(data)
-                        }
-                        
-                        
-                    case .failure(let error):
-                        if let statusCode = response.response?.statusCode, statusCode == 403 {
-                            self.forceLogout()
-                        } else if let data = response.data {
-                            if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
-                                if let string = json["Message"] as? String {
-                                    failure(APIError(code: .consultationCompleted, errorDescription: string)!)
-                                    return
-                                }
-                            }
-                        }
-                        
-                        failure(error)
-                    }
-                    
-        }
-    }
-    
-    func request(_ path: String,
                  method: HTTPMethods,
                  parameters: [String]? = nil,
                  success: @escaping (Data) -> Void,
@@ -111,47 +53,28 @@ extension APIManager {
             switch response.result {
             case .success(_):
                 guard let data = response.data else {
-                    failure(APIError(code: .serverResultCodeParseError, errorDescription: "")!)
+                    failure(APIError(code: APIError.ErrorCodes(rawValue: 1)!)!)
                     return
                 }
                 
-               if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) {
-                   print(json)
-               }
+               if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary{
+                    print(json)
+                    if let errorObject = json["error"] as? NSDictionary, let errorCode = errorObject["error_code"] as? Int {
+                        failure(APIError(code: APIError.ErrorCodes(rawValue: errorCode) ?? .unknowError)!)
+                        return
+                    }
+                }
                 
                 do {
                     let error = try JSONDecoder().decode(ErrorModel.self, from: data)
-                    if error.success == false {
-                        failure(APIError(code: .serverResultCodeParseError, errorDescription: error.message)!)
-                    } else {
-                        success(data)
-                    }
+                    failure(APIError(code: APIError.ErrorCodes(rawValue: error.errorCode) ?? .unknowError)!)
                 } catch {
                     success(data)
                 }
                 
             case .failure(let error):
-                if let statusCode = response.response?.statusCode, statusCode == 403 {
-                    self.forceLogout()
-                } else if let data = response.data {
-                    if let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary {
-                        if let string = json["Message"] as? String {
-                            failure(APIError(code: .serverResultCodeParseError, errorDescription: string)!)
-                            return
-                        }
-                    }
-                }
-                
                 failure(error)
             }
-        }
-    }
-    
-    func serialize(_ value: Any) -> Data? {
-        if JSONSerialization.isValidJSONObject(value) {
-            return try? JSONSerialization.data(withJSONObject: value, options: [])
-        } else {
-            return String(describing: value).data(using: .utf8)
         }
     }
 }

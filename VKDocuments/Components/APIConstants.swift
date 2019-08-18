@@ -15,7 +15,7 @@ public struct URLs {
     static let AuthResult = "https://oauth.vk.com/blank.html#"
 }
 
-enum HTTPMethods : String {
+enum HTTPMethods: String {
     case get = "GET"
     case post = "POST"
     case put = "PUT"

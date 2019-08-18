@@ -18,6 +18,7 @@ final class MainViewController: BaseViewController {
     
     
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var noDocumentsView: UIView!
     
     private var documentsArray = [Document]()
     
@@ -78,13 +79,14 @@ final class MainViewController: BaseViewController {
         isDataLoading = true
         
         SVProgressHUD.show()
-        
         SC.services.apiManager.getDocuments(ownerID: UserManager.manager.userID, count: 20, offset: self.documentsArray.count, success: { [weak self] response in
             SVProgressHUD.hideOnMain()
             self?.isDataLoading = false
             
             do {
                 let documents = try JSONDecoder().decode(Documents.self, from: response as! Data)
+                
+                self?.noDocumentsView.isHidden = documents.count == 0 ? false : true
                 
                 // if offset greater or equal to total files count
                 if self?.documentsArray.count ?? 0 >= documents.count {
@@ -104,8 +106,15 @@ final class MainViewController: BaseViewController {
             }
         }) { error in
             SVProgressHUD.hideOnMain()
-            print(error)
+            
+            let alert = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Понятно", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func updateAction(_ sender: UIButton) {
+        self.updateData()
     }
     
     
@@ -115,9 +124,9 @@ final class MainViewController: BaseViewController {
         
         SC.services.apiManager.deleteDocument(ownerID: ownerID, docID: documentID, success: { response in
             SVProgressHUD.hideOnMain()
-            self.deleteCell(index: index)
+           self.deleteCell(index: index)
         }) { error in
-            SVProgressHUD.hideOnMain()
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
             print(error)
         }
     }
@@ -129,7 +138,7 @@ final class MainViewController: BaseViewController {
             SVProgressHUD.hideOnMain()
             self.renameCell(index: index, actualName: title)
         }) { error in
-            SVProgressHUD.hideOnMain()
+            SVProgressHUD.showError(withStatus: error.localizedDescription)
             print(error)
         }
     }
@@ -148,7 +157,6 @@ final class MainViewController: BaseViewController {
         self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .top)
     }
 }
-
 
 // MARK: - TableView Data Source and Delegate Methods
 extension MainViewController: UITableViewDataSource {

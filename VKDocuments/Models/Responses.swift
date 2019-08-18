@@ -7,11 +7,9 @@
 //
 
 struct ErrorModel: Codable {
-    let success: Bool
-    let message: String
+    var errorCode: Int
     
     private enum CodingKeys: String, CodingKey {
-        case success = "Success"
-        case message = "Message"
+        case errorCode = "error_code"
     }
 }
